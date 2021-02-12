@@ -1,15 +1,18 @@
-import os, io, pickle, json, time, subprocess, zipfile
-import dotenv
+import os, io, pickle, json, time, subprocess, zipfile, requests
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
-from google.auth.transport.requests import Request
+from google.auth.transport.requests import Request  
 from dotenv import load_dotenv
 from pathlib import Path
 
 load_dotenv(dotenv_path=Path('.env'))
 ID = '12-KGea4sRUoLX-tiIwYT6i-FTjQEz0Zy'
 Name = 'Links.json'
+version = 'V.1.0.0'
+response = requests.get("https://api.github.com/repos/thijnmens/STpooltool/releases/latest")
+if response.json()["name"] != version:
+    print(f'----------\nA NEW VERSION IS AVAILABLE, download it here:\nhttps://github.com/thijnmens/STPoolTool/releases/latest\nCurrent version: {version}\nLatest version: {response.json()["name"]}\n----------')
 
 def Create_Service(client_secret_file, api_name, api_version, *scopes):
     CLIENT_SECRET_FILE = client_secret_file
@@ -116,7 +119,7 @@ while a <= b:
                 print('Something went wrong while unzipping the file, please unzip it yourself, the program will continue in 3 seconds')
                 time.sleep(3)
         elif Quest == 'p':
-            print('PC is not supported yet, but it will be in the near future!')
+            print('Auto-install is not yet enabled so you\'ll have to manually install the zips, a tutorial for this can be found in #faq')
         elif Quest != 'p' and Quest != 'q':
             print('Something went wrong, make sure you only fill in values that are giving to you between the brackets like this: [values]')
     a = a + 1
